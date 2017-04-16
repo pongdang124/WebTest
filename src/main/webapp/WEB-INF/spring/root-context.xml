@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	
+	
+	<!-- MyBatis 셋팅 -->
+	
+	<!-- 데이터베이스 연결 -->
+	<bean id="oracle" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="hr"></property>
+		<property name="password" value="java1234"></property>
+	</bean>
+	
+	<!-- 디버깅 -->
+	<bean id="logOracle" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="oracle"></constructor-arg>
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"></property>
+				<property name="sqlPrefix" value="SQL"></property>
+			</bean>
+		</property>	
+	</bean>
+	
+	<!-- <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+									ref=oracle -> 위에 있는 oracle 참조
+		<property name="dataSource" ref="oracle"></property>
+		<property name="mapperLocations" value="classpath*:com/test/mybatis/mapper/*.xml"></property>   mapper
+		<property name="configLocation" value="/WEB-INF/myConfig.xml"></property>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" index="0"></constructor-arg>
+	</bean> -->
+		
+</beans>
